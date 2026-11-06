@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prevision-demanda"
+version = "1.0.0"
+description = "Estima la demanda de un producto a partir de su histórico de ventas."
+requires-python = ">=3.12"
+dependencies = ["python-dotenv==1.2.4"]
+
+[project.scripts]
+prevision-demanda = "demanda.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.format]
+# diagnostico.md cita el código heredado tal cual: no se reformatea.
+exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
