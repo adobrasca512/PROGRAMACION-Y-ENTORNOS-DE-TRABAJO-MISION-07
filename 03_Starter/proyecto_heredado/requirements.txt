@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 # Dependencias de ejecución
+=======
+>>>>>>> 7478113806ab41639ee17034520ae23e7eaf0dbb
 python-dotenv==1.2.4
 
 # Desarrollo: pruebas y calidad
