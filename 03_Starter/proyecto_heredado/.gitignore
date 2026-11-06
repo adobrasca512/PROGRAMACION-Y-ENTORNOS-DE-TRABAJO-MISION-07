@@ -1,1 +1,34 @@
+# Entorno virtual
+.venv/
+venv/
+env/
+
+# Variables de entorno / secretos (NO subir nunca)
 .env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Tests y herramientas
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Bases de datos locales
+*.db
+*.sqlite3
+
+# Editores / SO
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
