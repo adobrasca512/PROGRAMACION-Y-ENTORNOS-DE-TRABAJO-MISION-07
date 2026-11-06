@@ -36,6 +36,27 @@ python app.py
 
 ## Tests
 
+Los tests están en `test_app.py` y usan CSV temporales, así que no modifican `ventas.csv`.
+
+Desde la carpeta del proyecto, con el entorno virtual activado (el prompt debe empezar por `(.venv)`):
+
 ```powershell
-python -m pytest
+.\.venv\Scripts\Activate.ps1
+python -m pytest -v
+```
+
+Resultado esperado: `33 passed`.
+
+Otras opciones útiles:
+
+```powershell
+python -m pytest -q                          # salida resumida
+python -m pytest test_app.py -k estimar      # solo los tests cuyo nombre contiene "estimar"
+python -m ruff check .                       # revisión de estilo del código
+```
+
+Si PowerShell bloquea la activación del entorno, permite los scripts solo en esa ventana:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
