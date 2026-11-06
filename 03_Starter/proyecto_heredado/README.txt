@@ -1,0 +1,1 @@
+Proyecto heredado. Ejecutar `python app.py`. Debéis identificar sus limitaciones y convertirlo en un paquete profesional. El fichero ventas.csv se entrega para pruebas. No modifiquéis la carpeta original: trabajad en vuestro repositorio.
