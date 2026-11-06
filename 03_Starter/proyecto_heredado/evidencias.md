@@ -7,7 +7,7 @@ Detalle completo en [`diagnostico.md`](diagnostico.md).
 | Problema | Cómo se reproduce | Causa | Solución |
 |---|---|---|---|
 | P1. CSV sin ventas | CSV solo con cabecera → `ZeroDivisionError` | División entre `len([])` sin comprobación | `promedio()` lanza `ValueError` claro; `main()` muestra `AVISO:` y sale con código 1 |
-| P2. Ruta fija y dependiente del directorio | Ejecutar desde otra carpeta → `FileNotFoundError` | `ARCHIVO = 'ventas.csv'` en el código, relativo al directorio actual | `VENTAS_CSV` (relativa al proyecto o absoluta) con valor por defecto `data/ventas.csv` |
+| P2. Ruta fija y dependiente del directorio | Ejecutar desde otra carpeta → `FileNotFoundError` | `ARCHIVO = 'ventas.csv'` en el código, relativo al directorio actual | `VENTAS_CSV` (relativa al proyecto o absoluta) con valor por defecto `ventas.csv` |
 | P3. Entrada sin validar | `abc`, `10,5`, `nan`, `-10`, cabecera `venta`, CSV con BOM | `float(fila['ventas'])` sin controles; `open()` sin `encoding` | `carga.py` valida archivo, cabecera y cada fila; `encoding="utf-8-sig"` |
 | P4. Código monolítico, sin pruebas ni entorno | No se puede probar el cálculo aislado | Lectura, cálculo e impresión en una función; factor `1.1` fijo | Paquete `src/demanda` (config, carga, cálculo, main); `FACTOR_DEMANDA`; pytest; `.venv` |
 
@@ -36,15 +36,19 @@ Resultado `ruff check .`: **All checks passed!** (`ruff format --check .`: 9 fil
 
 ## Pruebas
 
-Casos implementados (33 pruebas en 3 archivos):
+Casos implementados: **66 pruebas** en dos baterías.
 
-- **Normal:** `test_caso_normal`, `test_factor_personalizado`, `test_carga_normal`, `test_carga_con_bom_de_excel`, `test_main_correcto`.
-- **Vacío:** `test_vacio_lanza_error_claro`, `test_solo_cabecera_devuelve_lista_vacia`, `test_archivo_vacio`, `test_main_sin_ventas_avisa_sin_traza`.
-- **Negativos:** `test_negativos_lanzan_error`, `test_valores_invalidos[negativo]`.
-- **Parámetro inválido:** `test_parametro_invalido` (0, −1, nan, inf, texto, booleano) y `test_factor_de_entorno_invalido` (`abc`, `0`, `-2`, `nan`).
-- **Otros casos límite:** archivo inexistente, extensión incorrecta, cabecera incorrecta, texto, celda vacía, `nan`/`inf`, decimales, coma decimal, rutas relativa/absoluta.
+**`test_app.py`** (Boris Castellanos Matamoros, 33 pruebas sobre `app.py`):
 
-Resultado `pytest -q`: **33 passed**
+- **Normal:** `test_estimar_con_factor_por_defecto`, `test_estimar_con_factor_personalizado`, `test_cargar_ventas_correcto`, `test_main_correcto`.
+- **Vacío:** `test_estimar_sin_ventas`, `test_cargar_ventas_solo_cabecera`, `test_validar_archivo_vacio`, `test_main_sin_ventas_muestra_aviso`.
+- **Negativos:** `test_convertir_venta_invalida[-5-negativas]`.
+- **Parámetro inválido:** `test_obtener_factor_invalido` (`abc`, `0`, `-1`, `inf`, `nan`).
+- **Otros:** configuración por variables de entorno, validación del archivo (inexistente, carpeta, extensión, vacío), conversión de ventas, cabecera incorrecta, coma decimal, archivo inexistente en `main`.
+
+**`tests/`** (33 pruebas por módulo del paquete `src/demanda`): cálculo, carga del CSV (incluye BOM de Excel, `nan`, celda vacía) y configuración (rutas relativa y absoluta).
+
+Resultado `pytest -q`: **66 passed** (`python -m pytest test_app.py -q`: 33 passed)
 
 ## Transferencia
 

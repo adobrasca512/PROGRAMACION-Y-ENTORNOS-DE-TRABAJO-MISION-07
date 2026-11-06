@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from demanda.calculo import FACTOR_POR_DEFECTO, validar_factor
 
 RAIZ_PROYECTO = Path(__file__).resolve().parents[2]
-RUTA_POR_DEFECTO = RAIZ_PROYECTO / "data" / "ventas.csv"
+RUTA_POR_DEFECTO = RAIZ_PROYECTO / "ventas.csv"
 
 
 def cargar_entorno() -> None:

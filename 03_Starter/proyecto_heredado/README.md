@@ -57,10 +57,10 @@ En VS Code: abrir **esta carpeta** (`File → Open Folder`), `Ctrl+Shift+P` → 
 
 Se configura con variables de entorno o con el archivo `.env` (copiado de `.env.example`; **no se sube a Git**):
 
-| Variable | Valor por defecto | Descripción |
-|---|---|---|
-| `VENTAS_CSV` | `data/ventas.csv` | Ruta del CSV. Relativa a la carpeta del proyecto o absoluta. |
-| `FACTOR_DEMANDA` | `1.1` | Factor de ajuste. Número mayor que 0. |
+| Variable         | Valor por defecto | Descripción                                                  |
+| ---------------- | ----------------- | ------------------------------------------------------------ |
+| `VENTAS_CSV`     | `ventas.csv`      | Ruta del CSV. Relativa a la carpeta del proyecto o absoluta. |
+| `FACTOR_DEMANDA` | `1.1`             | Factor de ajuste. Número mayor que 0.                        |
 
 Las variables definidas en la terminal tienen prioridad sobre el `.env`:
 
@@ -83,10 +83,10 @@ ventas
 ## Ejecución
 
 ```powershell
-python -m demanda          # o bien: prevision-demanda
+python -m demanda          # o bien: prevision-demanda  /  python app.py
 ```
 
-Salida esperada con `data/ventas.csv`:
+Salida esperada con el `ventas.csv` de ejemplo:
 
 ```text
 Ventas leídas: 3
@@ -98,21 +98,16 @@ Si los datos o la configuración no son válidos, el programa muestra `AVISO: <m
 
 ## Calidad y pruebas
 
-Los tests están en `test_app.py` y usan CSV temporales, así que no modifican `ventas.csv`.
+Los tests están en `test_app.py` (pruebas del programa a través de `app.py`) y en `tests/` (pruebas por módulo del paquete). Usan CSV temporales, así que no modifican `ventas.csv`.
 
 Desde la carpeta del proyecto, con el entorno virtual activado (el prompt debe empezar por `(.venv)`):
 
 ```powershell
-<<<<<<< HEAD
-ruff check .
-ruff format --check .
-python -m pytest -q
-=======
 .\.venv\Scripts\Activate.ps1
 python -m pytest -v
 ```
 
-Resultado esperado: `33 passed`.
+Resultado esperado: `66 passed` (33 de `test_app.py` y 33 de `tests/`).
 
 Otras opciones útiles:
 
@@ -120,13 +115,13 @@ Otras opciones útiles:
 python -m pytest -q                          # salida resumida
 python -m pytest test_app.py -k estimar      # solo los tests cuyo nombre contiene "estimar"
 python -m ruff check .                       # revisión de estilo del código
+python -m ruff format --check .              # comprobación de formato
 ```
 
 Si PowerShell bloquea la activación del entorno, permite los scripts solo en esa ventana:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
->>>>>>> 7478113806ab41639ee17034520ae23e7eaf0dbb
 ```
 
 ## Estructura
@@ -139,8 +134,10 @@ proyecto_heredado/
 │   ├── config.py      # configuración: variables de entorno y .env
 │   ├── main.py        # interfaz de consola
 │   └── __main__.py    # permite `python -m demanda`
-├── tests/             # pruebas pytest
-├── data/ventas.csv    # datos de ejemplo
+├── app.py             # punto de entrada compatible (python app.py)
+├── test_app.py        # pruebas pytest del programa
+├── tests/             # pruebas pytest por módulo
+├── ventas.csv         # datos de ejemplo
 ├── .env.example       # plantilla de configuración
 ├── .vscode/           # intérprete y extensiones recomendadas
 ├── pyproject.toml     # paquete, pytest y Ruff
@@ -151,9 +148,9 @@ proyecto_heredado/
 
 ## Problemas frecuentes
 
-| Síntoma | Solución |
-|---|---|
-| `No module named demanda` | Activar `.venv` y ejecutar `python -m pip install -r requirements.txt`. |
-| `Activate.ps1 no se puede cargar` | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`. |
-| `AVISO: No se encontró el archivo de ventas` | Revisar `VENTAS_CSV` en `.env` o en la terminal. |
-| VS Code no reconoce los imports | Seleccionar el intérprete `.venv` (ver *Comprobar el entorno*). |
+| Síntoma                                      | Solución                                                                |
+| -------------------------------------------- | ----------------------------------------------------------------------- |
+| `No module named demanda`                    | Activar `.venv` y ejecutar `python -m pip install -r requirements.txt`. |
+| `Activate.ps1 no se puede cargar`            | `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.                  |
+| `AVISO: No se encontró el archivo de ventas` | Revisar `VENTAS_CSV` en `.env` o en la terminal.                        |
+| VS Code no reconoce los imports              | Seleccionar el intérprete `.venv` (ver _Comprobar el entorno_).         |

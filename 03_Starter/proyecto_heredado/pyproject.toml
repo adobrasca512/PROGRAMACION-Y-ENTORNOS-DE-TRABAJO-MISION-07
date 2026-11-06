@@ -16,7 +16,7 @@ prevision-demanda = "demanda.main:main"
 where = ["src"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["test_app.py", "tests"]
 pythonpath = ["src"]
 
 [tool.ruff]
